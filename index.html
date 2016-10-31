@@ -10,14 +10,33 @@
 
 <body ng-controller="damonsController">
   Welcome to Damon's Tasks page!
-  <form ng-submit="createATask(nameOfNewTask)">
-  	<input ng-model="nameOfNewTask">
+  <form ng-submit="damonWantsToAddATask(nameOfNewTask)">
+  	<input ng-model="nameOfNewTask" placeholder="Task Name">
   	<button>Add this task</button>
   </form>
+  <div ng-show="hasDamonAddedATask">
+  	Add as many key-value pairs as you'd like!
+  	<input ng-model="newKey" placeholder="New Key"> <input ng-model="newValue" placeholder="New Value">
+  	<ul>
+  		<li ng-repeat="(key, value) in addedAttributes">
+  			{{key}}: {{value}}
+  			<button ng-click="deleteKeyValuePair(key)">Delete this pair</button>
+  		</li>
+  	</ul>
+  	<button ng-click="damonAddKeyValuePair(newKey, newValue)">Add this key-value pair</button>
+  	<button ng-click="addATask(tempTask)">OK I'm done!</button>
+  	<button ng-click="cancelAddTask()">Cancel Add Task</button>
+  </div>
   <ul>
   	<li ng-repeat="task in damonsTasks">
   		{{task.name}}: started at {{task.timeOfCreation.toString()}}
+  		<div ng-show="task.display">
+  			<ul>
+  				<li ng-repeat="(key, value) in task">{{key}}: {{value}}</li>
+  			</ul>
+  		</div>
   		<button ng-click="deleteATask(task.id)">Remove Task</button>
+  		<button ng-click="seeTaskDetails(task.id)">See more</button>
   	</li>
   </ul>
 </body>
